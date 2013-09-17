@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="GBK"?>
+<!DOCTYPE hibernate-mapping PUBLIC 
+	"-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+	"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Hibernate映射文件的根元素 -->
+<hibernate-mapping package="com.jnexhelp.domain">
+	<class	name="BasicInfoDomain"	table="basicInfo_table">
+		<!-- 使用只读缓存 -->
+		<cache usage="read-only"/>
+		<!-- 映射标识属性 -->
+
+		<id	name="id" type="integer" column="id">
+			<!-- 指定使用identity主键生成策略 -->
+			<generator class="identity"/>
+		</id>
+
+		<!-- 映射普通属性 -->
+		<property name="region" column="region"
+			type="string"/>
+		<property name="city" column="city"
+			type="string"/>
+		<property name="area" column="area"
+			type="string"/>
+		<property name="street" column="street"
+			type="string"/>
+		<property name="email" column="email"
+			type="string"/>
+		<property name="userName" column="userName"
+			type="string"/>
+		<property name="passwd" column="passwd"
+			type="string"/>
+		<property name="gender" column="gender"
+			type="integer"/>
+		<property name="birthDay" column="birthDay"
+			type="date"/>
+		<property name="career" column="career"
+			type="string"/>
+		<property name="indetifiedId" column="indetifiedId"
+			type="long"/>
+			
+		<one-to-one name="contactInfo" property-ref="basicInfo"/>
+		
+	</class>
+</hibernate-mapping>

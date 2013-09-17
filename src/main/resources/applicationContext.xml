@@ -1,0 +1,317 @@
+<!-- 指定Spring配置文件的Schema信息 -->
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:p="http://www.springframework.org/schema/p" xmlns:tx="http://www.springframework.org/schema/tx"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans 
+	http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+	http://www.springframework.org/schema/tx 
+	http://www.springframework.org/schema/tx/spring-tx-3.0.xsd
+	http://www.springframework.org/schema/aop 
+	http://www.springframework.org/schema/aop/spring-aop-3.0.xsd">
+	<!-- 定义受环境影响易变的变量 -->
+	<bean
+		class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+		<property name="locations">
+			<list>
+				<!-- 数据连接配置 -->
+				<value>classpath:conf/const.properties</value>
+			</list>
+		</property>
+	</bean>
+
+	<!-- 数据源配置,使用应用内的DBCP数据库连接池 -->
+	<bean id="dataSource" class="com.mchange.v2.c3p0.ComboPooledDataSource"
+		destroy-method="close">
+		<property name="driverClass" value="com.mysql.jdbc.Driver" />
+		<property name="jdbcUrl">
+			<value>${jdbc.url}</value>
+		</property>
+		<property name="user">
+			<value>${jdbc.username}</value>
+		</property>
+		<property name="password">
+			<value>${jdbc.password}</value>
+		</property>
+		<!-- 连接池初始化时获取的链接数，介于minPoolSize和maxPoolSize之间 -->
+		<property name="initialPoolSize">
+			<value>${jdbc.initialPoolSize}</value>
+		</property>
+		<!-- 最小连接数 -->
+		<property name="minPoolSize">
+			<value>${jdbc.minPoolSize}</value>
+		</property>
+		<!-- 最大连接数 -->
+		<property name="maxPoolSize">
+			<value>${jdbc.maxPoolSize}</value>
+		</property>
+		<!-- 在当前连接数耗尽的时候，一次获取的新的连接数 -->
+		<property name="acquireIncrement">
+			<value>${jdbc.acquireIncrement}</value>
+		</property>
+		<!-- 最大空闲的时间，单位是秒，无用的链接再过时后会被回收 -->
+		<property name="maxIdleTime">
+			<value>${jdbc.maxIdleTime}</value>
+		</property>
+		<property name="maxStatements">
+			<value>${jdbc.maxStatements}</value>
+		</property>
+	</bean>
+
+	<!-- 定义Hibernate的SessionFactory -->
+	<!-- 依赖注入数据源，注入正是上面定义的dataSource -->
+	<bean id="sessionFactory"
+		class="org.springframework.orm.hibernate3.LocalSessionFactoryBean"
+		p:dataSource-ref="dataSource">
+		<!-- mappingResouces属性用来列出全部映射文件 -->
+		<property name="mappingResources">
+			<list>
+				<!-- 以下用来列出Hibernate映射文件 -->
+				<value>com/jnexhelp/domain/CityDomain.hbm.xml</value>
+				<value>com/jnexhelp/domain/BasicInfoDomain.hbm.xml</value>
+				<value>com/jnexhelp/domain/ContactInfoDomain.hbm.xml</value>
+				<value>com/jnexhelp/domain/skills/LegalServiceDomain.hbm.xml</value>
+				<value>com/jnexhelp/domain/skills/CateringServiceDomain.hbm.xml
+				</value>
+				<value>com/jnexhelp/domain/skills/LanguageServiceDomain.hbm.xml
+				</value>
+				<value>com/jnexhelp/domain/skills/ChineseMedicineServiceDomain.hbm.xml
+				</value>
+				<value>com/jnexhelp/domain/skills/HomeRepairServiceDomain.hbm.xml
+				</value>
+				<value>com/jnexhelp/domain/skills/ComputerPhoneServiceDomain.hbm.xml
+				</value>
+				<value>com/jnexhelp/domain/skills/TaobaoServiceDomain.hbm.xml
+				</value>
+				<value>com/jnexhelp/domain/skills/StockServiceDomain.hbm.xml</value>
+				<value>com/jnexhelp/domain/skills/EntertainmentServiceDomain.hbm.xml
+				</value>
+				<value>com/jnexhelp/domain/skills/BeautifyServiceDomain.hbm.xml
+				</value>
+				<value>com/jnexhelp/domain/skills/HouseServiceDomain.hbm.xml</value>
+				<value>com/jnexhelp/domain/skills/ChessGameServiceDomain.hbm.xml
+				</value>
+			</list>
+		</property>
+		<!-- 定义Hibernate的SessionFactory的属性 -->
+		<property name="hibernateProperties">
+			<!-- 指定数据库方言、是否自动建表 是否生成SQL语句等 -->
+			<value>
+				hibernate.dialect=org.hibernate.dialect.MySQLDialect
+				hibernate.hbm2ddl.auto=update
+				hibernate.show_sql=true
+				hibernate.format_sql=true
+				#开启二级缓存
+				hibernate.cache.use_second_level_cache=true
+				#设置二级缓存的提供者
+				hibernate.cache.provider_class=net.sf.ehcache.hibernate.EhCacheProvider
+			</value>
+		</property>
+	</bean>
+
+	<!-- 配置Hibernate的局部事务管理器，使用HibernateTransactionManager类 -->
+	<!-- 该类实现PlatformTransactionManager接口，是针对Hibernate的特定实现 -->
+	<!-- 并注入SessionFactory的引用 -->
+	<bean id="transactionManager"
+		class="org.springframework.orm.hibernate3.HibernateTransactionManager"
+		p:sessionFactory-ref="sessionFactory" />
+
+	<bean id="authorityInterceptor" class="com.jnexhelp.model.AuthorityInterceptor"
+		scope="singleton">
+		<property name="basicInfoDao" ref="basicInfoDao" />
+	</bean>
+
+	<bean id="registAction" class="com.jnexhelp.action.RegistAction"
+		scope="session" />
+	<bean id="loginAction" class="com.jnexhelp.action.LoginAction"
+		scope="session">
+		<property name="basicInfoDao" ref="basicInfoDao" />
+	</bean>
+
+	<bean id="cityDomain" class="com.jnexhelp.domain.CityDomain"
+		scope="session" />
+
+
+	<bean id="BasicInfoDomain" class="com.jnexhelp.domain.BasicInfoDomain"
+		scope="session" />
+
+	<bean id="ContactInfoDomain" class="com.jnexhelp.domain.ContactInfoDomain"
+		scope="session" />
+
+	<bean id="LegalServiceDomain" class="com.jnexhelp.domain.skills.LegalServiceDomain"
+		scope="session" />
+
+	<bean id="CateringServiceDomain" class="com.jnexhelp.domain.skills.CateringServiceDomain"
+		scope="session" />
+
+	<bean id="LanguageServiceDomain" class="com.jnexhelp.domain.skills.LanguageServiceDomain"
+		scope="session" />
+
+	<bean id="ChineseMedicineServiceDomain" class="com.jnexhelp.domain.skills.ChineseMedicineServiceDomain"
+		scope="session" />
+
+	<bean id="HomeRepairServiceDomain" class="com.jnexhelp.domain.skills.HomeRepairServiceDomain"
+		scope="session" />
+
+	<bean id="ComputerPhoneServiceDomain" class="com.jnexhelp.domain.skills.ComputerPhoneServiceDomain"
+		scope="session" />
+
+	<bean id="TaobaoServiceDomain" class="com.jnexhelp.domain.skills.TaobaoServiceDomain"
+		scope="session" />
+
+	<bean id="StockServiceDomain" class="com.jnexhelp.domain.skills.StockServiceDomain"
+		scope="session" />
+
+	<bean id="EntertainmentServiceDomain" class="com.jnexhelp.domain.skills.EntertainmentServiceDomain"
+		scope="session" />
+
+	<bean id="BeautifyServiceDomain" class="com.jnexhelp.domain.skills.BeautifyServiceDomain"
+		scope="session" />
+
+	<bean id="HouseServiceDomain" class="com.jnexhelp.domain.skills.HouseServiceDomain"
+		scope="session" />
+
+	<bean id="ChessGameServiceDomain" class="com.jnexhelp.domain.skills.ChessGameServiceDomain"
+		scope="session" />
+
+	<bean id="randomModel" class="com.jnexhelp.model.RandomModel"
+		scope="singleton" />
+
+	<bean id="finishRegistAction" class="com.jnexhelp.action.FinishRegistAction"
+		scope="session">
+		<property name="basicInfoDomain" ref="BasicInfoDomain" />
+		<property name="contactInfoDomain" ref="ContactInfoDomain" />
+		<property name="beautifyServiceDomain" ref="BeautifyServiceDomain" />
+		<property name="cateringServiceDomain" ref="CateringServiceDomain" />
+		<property name="chessGameServiceDomain" ref="ChessGameServiceDomain" />
+		<property name="chineseMedicineServiceDomain" ref="ChineseMedicineServiceDomain" />
+		<property name="computerPhoneServiceDomain" ref="ComputerPhoneServiceDomain" />
+		<property name="entertainmentServiceDomain" ref="EntertainmentServiceDomain" />
+		<property name="homeRepairServiceDomain" ref="HomeRepairServiceDomain" />
+		<property name="houseServiceDomain" ref="HouseServiceDomain" />
+		<property name="languageServiceDomain" ref="LanguageServiceDomain" />
+		<property name="legalServiceDomain" ref="LegalServiceDomain" />
+		<property name="stockServiceDomain" ref="StockServiceDomain" />
+		<property name="taobaoServiceDomain" ref="TaobaoServiceDomain" />
+		<property name="basicInfoDao" ref="basicInfoDao" />
+		<property name="contactInfoDao" ref="contactInfoDao" />
+		<property name="beautifyServiceDao" ref="beautifyServiceDao" />
+		<property name="cateringServiceDao" ref="cateringServiceDao" />
+		<property name="chessGameServiceDao" ref="chessGameServiceDao" />
+		<property name="chineseMedicineServiceDao" ref="chineseMedicineServiceDao" />
+		<property name="computerPhoneServiceDao" ref="computerPhoneServiceDao" />
+		<property name="entertainmentServiceDao" ref="entertainmentServiceDao" />
+		<property name="homeRepairServiceDao" ref="homeRepairServiceDao" />
+		<property name="houseServiceDao" ref="houseServiceDao" />
+		<property name="languageServiceDao" ref="languageServiceDao" />
+		<property name="legalServiceDao" ref="legalServiceDao" />
+		<property name="stockServiceDao" ref="stockServiceDao" />
+		<property name="taobaoServiceDao" ref="taobaoServiceDao" />
+	</bean>
+
+	<bean id="findPersonAction" class="com.jnexhelp.action.FindPersonAction"
+		scope="session">
+		<property name="basicInfoDao" ref="basicInfoDao" />
+		<property name="contactInfoDao" ref="contactInfoDao" />
+		<property name="beautifyServiceDao" ref="beautifyServiceDao" />
+		<property name="cateringServiceDao" ref="cateringServiceDao" />
+		<property name="chessGameServiceDao" ref="chessGameServiceDao" />
+		<property name="chineseMedicineServiceDao" ref="chineseMedicineServiceDao" />
+		<property name="computerPhoneServiceDao" ref="computerPhoneServiceDao" />
+		<property name="entertainmentServiceDao" ref="entertainmentServiceDao" />
+		<property name="homeRepairServiceDao" ref="homeRepairServiceDao" />
+		<property name="houseServiceDao" ref="houseServiceDao" />
+		<property name="languageServiceDao" ref="languageServiceDao" />
+		<property name="legalServiceDao" ref="legalServiceDao" />
+		<property name="stockServiceDao" ref="stockServiceDao" />
+		<property name="taobaoServiceDao" ref="taobaoServiceDao" />
+	</bean>
+
+	<bean id="citySelectAction" class="com.jnexhelp.action.CitySelectAction"
+		scope="session">
+		<property name="cityDomain" ref="cityDomain" />
+		<property name="cityDao" ref="cityDao" />
+	</bean>
+
+	<bean id="basicInfoAction" class="com.jnexhelp.action.BasicInfoAction"
+		scope="session">
+		<property name="basicInfoDomain" ref="BasicInfoDomain" />
+		<property name="rdModel" ref="randomModel" />
+	</bean>
+
+	<bean id="beautifyServiceAction" class="com.jnexhelp.service.BeautifyService"
+		scope="session">
+		<property name="randomAction" ref="randomModel" />
+		<property name="beautifyServiceDomain" ref="BeautifyServiceDomain" />
+	</bean>
+
+	<bean id="cateringServiceAction" class="com.jnexhelp.service.CateringService"
+		scope="session">
+		<property name="randomAction" ref="randomModel" />
+		<property name="cateringServiceDomain" ref="CateringServiceDomain" />
+	</bean>
+
+	<bean id="chessGameServiceAction" class="com.jnexhelp.service.ChessGameService"
+		scope="session">
+		<property name="randomAction" ref="randomModel" />
+		<property name="chessGameServiceDomain" ref="ChessGameServiceDomain" />
+	</bean>
+
+	<bean id="chineseMedicineServiceAction" class="com.jnexhelp.service.ChineseMedicineService"
+		scope="session">
+		<property name="randomAction" ref="randomModel" />
+		<property name="chineseMedicineServiceDomain" ref="ChineseMedicineServiceDomain" />
+	</bean>
+
+	<bean id="computerPhoneServiceAction" class="com.jnexhelp.service.ComputerPhoneService"
+		scope="session">
+		<property name="randomAction" ref="randomModel" />
+		<property name="computerPhoneServiceDomain" ref="ComputerPhoneServiceDomain" />
+	</bean>
+
+	<bean id="entertainmentServiceAction" class="com.jnexhelp.service.EntertainmentService"
+		scope="session">
+		<property name="randomAction" ref="randomModel" />
+		<property name="entertainmentServiceDomain" ref="EntertainmentServiceDomain" />
+	</bean>
+
+	<bean id="homeRepairServiceAction" class="com.jnexhelp.service.HomeRepairService"
+		scope="session">
+		<property name="randomAction" ref="randomModel" />
+		<property name="homeRepairServiceDomain" ref="HomeRepairServiceDomain" />
+	</bean>
+
+	<bean id="houseServiceAction" class="com.jnexhelp.service.HouseService"
+		scope="session">
+		<property name="randomAction" ref="randomModel" />
+		<property name="houseServiceDomain" ref="HouseServiceDomain" />
+	</bean>
+
+	<bean id="languageServiceAction" class="com.jnexhelp.service.LanguageService"
+		scope="session">
+		<property name="randomAction" ref="randomModel" />
+		<property name="languageServiceDomain" ref="LanguageServiceDomain" />
+	</bean>
+
+	<bean id="legalServiceAction" class="com.jnexhelp.service.LegalService"
+		scope="session">
+		<property name="randomAction" ref="randomModel" />
+		<property name="legalServiceDomain" ref="LegalServiceDomain" />
+	</bean>
+
+	<bean id="stockServiceAction" class="com.jnexhelp.service.StockService"
+		scope="session">
+		<property name="randomAction" ref="randomModel" />
+		<property name="stockServiceDomain" ref="StockServiceDomain" />
+	</bean>
+
+	<bean id="taobaoServiceAction" class="com.jnexhelp.service.TaobaoService"
+		scope="session">
+		<property name="randomAction" ref="randomModel" />
+		<property name="taobaoServiceDomain" ref="TaobaoServiceDomain" />
+	</bean>
+
+	<bean id="changePasswdAction" class="com.jnexhelp.action.ChangePasswdAction"
+		scope="session">
+		<property name="basicInfoDao" ref="basicInfoDao" />
+	</bean>
+</beans>

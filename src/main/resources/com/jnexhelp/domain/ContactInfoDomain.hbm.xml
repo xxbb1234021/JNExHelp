@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="GBK"?>
+<!DOCTYPE hibernate-mapping PUBLIC 
+	"-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+	"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Hibernate映射文件的根元素 -->
+<hibernate-mapping package="com.jnexhelp.domain">
+	<class	name="ContactInfoDomain"	table="contactInfo_table">
+		<!-- 使用只读缓存 -->
+		<cache usage="read-only"/>
+		<!-- 映射标识属性 -->
+
+		<id	name="id" type="integer" column="id">
+			<!-- 指定使用identity主键生成策略 -->
+			<generator class="identity"/>
+		</id>
+
+		<!-- 映射普通属性 -->
+		<property name="userId" column="userId"
+			type="string"/>
+		<property name="phoneNo" column="phoneNo"
+			type="integer"/>
+		<property name="qq" column="qq"
+			type="string"/>
+		<property name="msn" column="msn"
+			type="string"/>
+		<property name="imgfile" column="imgfile"
+			type="string"/>
+			
+		<many-to-one name="basicInfo" unique="true" 
+					 column="basicinfo_id" not-null="true"/>
+	</class>
+
+</hibernate-mapping>

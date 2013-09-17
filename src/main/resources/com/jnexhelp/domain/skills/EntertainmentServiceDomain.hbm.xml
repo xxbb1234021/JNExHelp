@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="GBK"?>
+<!DOCTYPE hibernate-mapping PUBLIC 
+	"-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+	"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Hibernate映射文件的根元素 -->
+<hibernate-mapping package="com.jnexhelp.domain.skills">
+	<class	name="EntertainmentServiceDomain"	table="EntertainmentService_table">
+		<!-- 使用只读缓存 -->
+		<cache usage="read-only"/>
+		<!-- 映射标识属性 -->
+
+		<id	name="id" type="integer" column="id">
+			<!-- 指定使用identity主键生成策略 -->
+			<generator class="identity"/>
+		</id>
+
+		<!-- 映射普通属性 -->
+		<property name="userId" column="userId"
+			type="string"/>
+		<property name="badminton" column="badminton"
+			type="boolean"/>
+		<property name="pingpong" column="pingpong"
+			type="boolean"/>
+		<property name="tennis" column="tennis"
+			type="boolean"/>
+		<property name="basketball" column="basketball"
+			type="boolean"/>
+		<property name="football" column="football"
+			type="boolean"/>
+		<property name="billiards" column="billiards"
+			type="boolean"/>
+		<property name="ropeskipping" column="ropeskipping"
+			type="boolean"/>
+		<property name="swimming" column="swimming"
+			type="boolean"/>
+		<property name="skating" column="skating"
+			type="boolean"/>
+		<property name="sing" column="sing"
+			type="boolean"/>
+		<property name="vocalist" column="vocalist"
+			type="boolean"/>
+		<property name="dance" column="dance"
+			type="boolean"/>
+		<property name="painting" column="painting"
+			type="boolean"/>
+			
+
+	</class>
+</hibernate-mapping>

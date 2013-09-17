@@ -1,0 +1,259 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE struts PUBLIC
+    "-//Apache Software Foundation//DTD Struts Configuration 2.0//EN"
+    "http://struts.apache.org/dtds/struts-2.0.dtd">
+<struts>
+	<constant name="struts.enable.DynamicMethodInvocation" value="false" />
+	<constant name="struts.devMode" value="false" />
+	<constant name="struts.objectFactory" value="spring" />
+
+	<include file="struts/user.xml"></include>
+
+
+	<package name="default" extends="struts-default">
+
+		<action name="registAction" class="registAction">
+			<result name="success">/WEB-INF/regist/basicInfo.jsp</result>
+			<result name="error">/error.jsp</result>
+		</action>
+
+		<action name="willChangePasswordAction" class="loginAction"
+			method="willChangePassword">
+			<result name="success">/WEB-INF/regist/changePassword.jsp</result>
+			<result name="error">/error.jsp</result>
+		</action>
+
+		<action name="updatePasswordAction" class="changePasswdAction"
+			method="startUpdatePasswd">
+			<result name="success">/WEB-INF/regist/updatePassword.jsp</result>
+			<result name="error">/error.jsp</result>
+		</action>
+
+		<action name="updatePasswordSuccessAction" class="changePasswdAction"
+			method="updatePasswd">
+			<result name="success">/WEB-INF/regist/updatePasswordSuccess.jsp
+			</result>
+			<result name="error">/error.jsp</result>
+		</action>
+
+		<action name="basicInfoAction" class="basicInfoAction">
+			<result name="success" type="redirect">/index.jsp</result>
+			<result name="error">/error.jsp</result>
+			<result name="others" type="chain">${redirectUrl}</result>
+		</action>
+
+		<action name="finishRegistAction" class="finishRegistAction">
+			<result name="success" type="redirect">/index.jsp</result>
+			<result name="error">/error.jsp</result>
+		</action>
+
+		<action name="findPersonAction" class="findPersonAction">
+			<result name="success">/index.jsp</result>
+			<result name="error">/error.jsp</result>
+		</action>
+
+		<action name="testOthersAction" class="testOthersAction">
+			<result name="success" type="redirect">/index.jsp</result>
+			<result name="error">/error.jsp</result>
+		</action>
+
+		<action name="beautifyServiceDisplayAction" class="beautifyServiceAction"
+			method="display">
+			<result name="none">/WEB-INF/skills/beautifyService.jsp</result>
+			<result name="error">/error.jsp</result>
+		</action>
+
+		<action name="beautifyServiceAction" class="beautifyServiceAction">
+			<result name="success">/WEB-INF/regist/FinishRegist.jsp</result>
+			<result name="error">/error.jsp</result>
+			<result name="switch" type="chain">${redirectUrl}</result>
+		</action>
+
+		<action name="cateringServiceDisplayAction" class="cateringServiceAction"
+			method="display">
+			<result name="none">/WEB-INF/skills/cateringService.jsp</result>
+			<result name="error">/error.jsp</result>
+		</action>
+
+		<action name="cateringServiceAction" class="cateringServiceAction">
+			<result name="success">/WEB-INF/regist/FinishRegist.jsp</result>
+			<result name="error">/error.jsp</result>
+			<result name="prepage">/WEB-INF/regist/basicInfo.jsp</result>
+			<result name="switch" type="chain">${redirectUrl}</result>
+		</action>
+
+		<action name="chessGameServiceDisplayAction" class="chessGameServiceAction"
+			method="display">
+			<result name="none">/WEB-INF/skills/chessGameService.jsp</result>
+			<result name="error">/error.jsp</result>
+		</action>
+
+		<action name="chessGameServiceAction" class="chessGameServiceAction">
+			<result name="success">/WEB-INF/regist/FinishRegist.jsp</result>
+			<result name="error">/error.jsp</result>
+			<result name="prepage">/WEB-INF/regist/basicInfo.jsp</result>
+			<result name="switch" type="chain">${redirectUrl}</result>
+		</action>
+
+		<action name="chineseMedicineServiceDisplayAction" class="chineseMedicineServiceAction"
+			method="display">
+			<result name="none">/WEB-INF/skills/chineseMedicineService.jsp
+			</result>
+			<result name="error">/error.jsp</result>
+		</action>
+
+		<action name="chineseMedicineServiceAction" class="chineseMedicineServiceAction">
+			<result name="success">/WEB-INF/regist/FinishRegist.jsp</result>
+			<result name="error">/error.jsp</result>
+			<result name="prepage">/WEB-INF/regist/basicInfo.jsp</result>
+			<result name="switch" type="chain">${redirectUrl}</result>
+		</action>
+
+		<action name="computerPhoneServiceDisplayAction" class="computerPhoneServiceAction"
+			method="display">
+			<result name="none">/WEB-INF/skills/computerPhoneService.jsp</result>
+			<result name="error">/error.jsp</result>
+		</action>
+
+		<action name="computerPhoneServiceAction" class="computerPhoneServiceAction">
+			<result name="success">/WEB-INF/regist/FinishRegist.jsp</result>
+			<result name="error">/error.jsp</result>
+			<result name="prepage">/WEB-INF/regist/basicInfo.jsp</result>
+			<result name="switch" type="chain">${redirectUrl}</result>
+		</action>
+
+		<action name="entertainmentServiceDisplayAction" class="entertainmentServiceAction"
+			method="display">
+			<result name="none">/WEB-INF/skills/entertainmentService.jsp</result>
+			<result name="error">/error.jsp</result>
+		</action>
+
+		<action name="entertainmentServiceAction" class="entertainmentServiceAction">
+			<result name="success">/WEB-INF/regist/FinishRegist.jsp</result>
+			<result name="error">/error.jsp</result>
+			<result name="prepage">/WEB-INF/regist/basicInfo.jsp</result>
+			<result name="switch" type="chain">${redirectUrl}</result>
+		</action>
+
+		<action name="homeRepairServiceDisplayAction" class="homeRepairServiceAction"
+			method="display">
+			<result name="none">/WEB-INF/skills/homeRepairService.jsp</result>
+			<result name="error">/error.jsp</result>
+		</action>
+
+		<action name="homeRepairServiceAction" class="homeRepairServiceAction">
+			<result name="success">/WEB-INF/regist/FinishRegist.jsp</result>
+			<result name="error">/error.jsp</result>
+			<result name="prepage">/WEB-INF/regist/basicInfo.jsp</result>
+			<result name="switch" type="chain">${redirectUrl}</result>
+		</action>
+
+		<action name="houseServiceDisplayAction" class="houseServiceAction"
+			method="display">
+			<result name="none">/WEB-INF/skills/houseService.jsp</result>
+			<result name="error">/error.jsp</result>
+		</action>
+
+		<action name="houseServiceAction" class="houseServiceAction">
+			<result name="success">/WEB-INF/regist/FinishRegist.jsp</result>
+			<result name="error">/error.jsp</result>
+			<result name="prepage">/WEB-INF/regist/basicInfo.jsp</result>
+			<result name="switch" type="chain">${redirectUrl}</result>
+		</action>
+
+		<action name="languageServiceDisplayAction" class="languageServiceAction"
+			method="display">
+			<result name="none">/WEB-INF/skills/languageService.jsp</result>
+			<result name="error">/error.jsp</result>
+		</action>
+
+		<action name="languageServiceAction" class="languageServiceAction">
+			<result name="success">/WEB-INF/regist/FinishRegist.jsp</result>
+			<result name="error">/error.jsp</result>
+			<result name="prepage">/WEB-INF/regist/basicInfo.jsp</result>
+			<result name="switch" type="chain">${redirectUrl}</result>
+		</action>
+
+		<action name="legalServiceDisplayAction" class="legalServiceAction"
+			method="display">
+			<result name="none">/WEB-INF/skills/legalService.jsp</result>
+			<result name="error">/error.jsp</result>
+		</action>
+
+		<action name="legalServiceAction" class="legalServiceAction">
+			<result name="success">/WEB-INF/regist/FinishRegist.jsp</result>
+			<result name="error">/error.jsp</result>
+			<result name="prepage">/WEB-INF/regist/basicInfo.jsp</result>
+			<result name="switch" type="chain">${redirectUrl}</result>
+		</action>
+
+		<action name="stockServiceDisplayAction" class="stockServiceAction"
+			method="display">
+			<result name="none">/WEB-INF/skills/stockService.jsp</result>
+			<result name="error">/error.jsp</result>
+		</action>
+
+		<action name="stockServiceAction" class="stockServiceAction">
+			<result name="success">/WEB-INF/regist/FinishRegist.jsp</result>
+			<result name="error">/error.jsp</result>
+			<result name="prepage">/WEB-INF/regist/basicInfo.jsp</result>
+			<result name="switch" type="chain">${redirectUrl}</result>
+		</action>
+
+		<action name="taobaoServiceDisplayAction" class="taobaoServiceAction"
+			method="display">
+			<result name="none">/WEB-INF/skills/taobaoService.jsp</result>
+			<result name="error">/error.jsp</result>
+		</action>
+
+		<action name="taobaoServiceAction" class="taobaoServiceAction">
+			<result name="success">/WEB-INF/regist/FinishRegist.jsp</result>
+			<result name="error">/error.jsp</result>
+			<result name="prepage">/WEB-INF/regist/basicInfo.jsp</result>
+			<result name="switch" type="chain">${redirectUrl}</result>
+		</action>
+	</package>
+
+	<package name="city" extends="json-default" namespace="/city">
+
+		<action name="selectRegion" class="citySelectAction" method="selectRegion">
+			<result type="json">
+				<param name="root">result</param>
+			</result>
+		</action>
+
+		<action name="selectCity" class="citySelectAction" method="selectCity">
+			<result type="json">
+				<param name="root">result</param>
+			</result>
+		</action>
+
+		<action name="selectArea" class="citySelectAction" method="selectArea">
+			<result type="json">
+				<param name="root">result</param>
+			</result>
+		</action>
+
+		<action name="selectStreet" class="citySelectAction" method="selectStreet">
+			<result type="json">
+				<param name="root">result</param>
+			</result>
+		</action>
+
+		<action name="validateUser" class="basicInfoAction" method="validateUser">
+			<result type="json">
+				<param name="root">result</param>
+			</result>
+		</action>
+
+	</package>
+
+	<package name="login" extends="json-default" namespace="/login">
+		<action name="loginAction" class="loginAction">
+			<result type="json">
+				<param name="root">result</param>
+			</result>
+		</action>
+	</package>
+
+</struts>

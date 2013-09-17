@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="GBK"?>
+<!DOCTYPE hibernate-mapping PUBLIC 
+	"-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+	"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Hibernate映射文件的根元素 -->
+<hibernate-mapping package="com.jnexhelp.domain.skills">
+	<class	name="ComputerPhoneServiceDomain"	table="ComputerPhoneService_table">
+		<!-- 使用只读缓存 -->
+		<cache usage="read-only"/>
+		<!-- 映射标识属性 -->
+
+		<id	name="id" type="integer" column="id">
+			<!-- 指定使用identity主键生成策略 -->
+			<generator class="identity"/>
+		</id>
+
+		<!-- 映射普通属性 -->
+		<property name="userId" column="userId"
+			type="string"/>
+		<property name="phoneRepair" column="phoneRepair"
+			type="boolean"/>
+		<property name="phoneSoftware" column="phoneSoftware"
+			type="boolean"/>
+		<property name="laptopRepair" column="laptopRepair"
+			type="boolean"/>
+		<property name="computerRepair" column="computerRepair"
+			type="boolean"/>
+		<property name="softwareInstallation" column="softwareInstallation"
+			type="boolean"/>
+		<property name="softwareMaintain" column="softwareMaintain"
+			type="boolean"/>
+		<property name="softwareUpgrade" column="softwareUpgrade"
+			type="boolean"/>
+		<property name="networkRepair" column="networkRepair"
+			type="boolean"/>
+		<property name="cameraRepair" column="cameraRepair"
+			type="boolean"/>
+			
+	</class>
+</hibernate-mapping>

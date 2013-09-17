@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="GBK"?>
+<!DOCTYPE hibernate-mapping PUBLIC 
+	"-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+	"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Hibernate映射文件的根元素 -->
+<hibernate-mapping package="com.jnexhelp.domain.skills">
+	<class	name="HomeRepairServiceDomain"	table="HomeRepairService_table">
+		<!-- 使用只读缓存 -->
+		<cache usage="read-only"/>
+		<!-- 映射标识属性 -->
+
+		<id	name="id" type="integer" column="id">
+			<!-- 指定使用identity主键生成策略 -->
+			<generator class="identity"/>
+		</id>
+
+		<!-- 映射普通属性 -->
+		<property name="userId" column="userId"
+			type="string"/>
+		<property name="waterproofLeak" column="waterproofLeak"
+			type="boolean"/>
+		<property name="toiletMaintenance" column="toiletMaintenance"
+			type="boolean"/>
+		<property name="airCondMaintenance" column="airCondMaintenance"
+			type="boolean"/>
+		<property name="airCondCleaning" column="airCondCleaning"
+			type="boolean"/>
+		<property name="lightBulbs" column="lightBulbs"
+			type="boolean"/>
+		<property name="sofaRepair" column="sofaRepair"
+			type="boolean"/>
+	</class>
+</hibernate-mapping>

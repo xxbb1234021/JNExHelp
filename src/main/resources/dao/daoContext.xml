@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="GBK"?>
+<!-- 指定Spring配置文件的Schema信息 -->
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:p="http://www.springframework.org/schema/p"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans 
+	http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
+	<!-- 配置DAO组件的模板 -->
+	<bean id="daoTemplate" abstract="true" lazy-init="true"
+		p:sessionFactory-ref="sessionFactory"/>
+		
+	<bean id="cityDao"
+		class="com.jnexhelp.dao.impl.CityDaoHibernate"
+		parent="daoTemplate"/>
+		
+	<bean id="basicInfoDao"
+		class="com.jnexhelp.dao.impl.BasicInfoDaoHibernate"
+		parent="daoTemplate"/>
+	
+	<bean id="contactInfoDao"
+		class="com.jnexhelp.dao.impl.ContactInfoDaoHibernate"
+		parent="daoTemplate"/>
+	
+	<bean id="beautifyServiceDao"
+		class="com.jnexhelp.dao.impl.BeautifyServiceDaoHibernate"
+		parent="daoTemplate"/>
+		
+	<bean id="cateringServiceDao"
+		class="com.jnexhelp.dao.impl.CateringServiceDaoHibernate"
+		parent="daoTemplate"/>
+		
+	<bean id="chessGameServiceDao"
+		class="com.jnexhelp.dao.impl.ChessGameServiceDaoHibernate"
+		parent="daoTemplate"/>
+		
+	<bean id="chineseMedicineServiceDao"
+		class="com.jnexhelp.dao.impl.ChineseMedicineServiceDaoHibernate"
+		parent="daoTemplate"/>
+		
+	<bean id="computerPhoneServiceDao"
+		class="com.jnexhelp.dao.impl.ComputerPhoneServiceDaoHibernate"
+		parent="daoTemplate"/>	
+		
+	<bean id="entertainmentServiceDao"
+		class="com.jnexhelp.dao.impl.EntertainmentServiceDaoHibernate"
+		parent="daoTemplate"/>
+		
+	<bean id="homeRepairServiceDao"
+		class="com.jnexhelp.dao.impl.HomeRepairServiceDaoHibernate"
+		parent="daoTemplate"/>
+		
+	<bean id="houseServiceDao"
+		class="com.jnexhelp.dao.impl.HouseServiceDaoHibernate"
+		parent="daoTemplate"/>
+		
+	<bean id="languageServiceDao"
+		class="com.jnexhelp.dao.impl.LanguageServiceDaoHibernate"
+		parent="daoTemplate"/>
+		
+	<bean id="legalServiceDao"
+		class="com.jnexhelp.dao.impl.LegalServiceDaoHibernate"
+		parent="daoTemplate"/>
+		
+	<bean id="stockServiceDao"
+		class="com.jnexhelp.dao.impl.StockServiceDaoHibernate"
+		parent="daoTemplate"/>
+		
+	<bean id="taobaoServiceDao"
+		class="com.jnexhelp.dao.impl.TaobaoServiceDaoHibernate"
+		parent="daoTemplate"/>
+</beans>
