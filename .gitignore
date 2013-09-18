@@ -7,6 +7,9 @@
 .metadata
 bin/
 tmp/
+classes/
+lib/
+target/
 *.tmp
 *.bak
 *.swp
